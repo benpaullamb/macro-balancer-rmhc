@@ -39,7 +39,12 @@ import MealSolution from './meal-solution.js';
 //   }
 // });
 
-export const rmhcMealSolution = (targets, foods, iterations = 1000000, changeRate = 50) => {
+export const rmhcMealSolution = (
+  targets: any,
+  foods: any,
+  iterations = 1000000,
+  changeRate = 50
+) => {
   const solution = new MealSolution({
     targets,
     foods,

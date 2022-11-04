@@ -1,17 +1,20 @@
 import chalk from 'chalk';
 
 export default class MealSolution {
-  grams = [];
+  _grams: any = [];
+  targets: any;
+  foods: any;
+  changeRate: any;
 
   get grams() {
-    return [...this.grams];
+    return [...this._grams];
   }
 
-  set grams(value) {
-    this.grams = [...value];
+  set grams(value: any) {
+    this._grams = [...value];
   }
 
-  constructor(options) {
+  constructor(options: any) {
     this.targets = { ...options.targets };
     this.foods = options.foods;
     this.changeRate = options.changeRate;
@@ -34,7 +37,7 @@ export default class MealSolution {
   }
 
   mutate() {
-    this.grams = this.grams.map((grams, i) => {
+    this.grams = this.grams.map((grams: any, i: any) => {
       const change = Math.random() * (this.changeRate * 2) - this.changeRate;
       return this.foods[i].clampGrams(grams + change);
     });
@@ -58,8 +61,8 @@ export default class MealSolution {
     return this.sumCaloriesForMacro();
   }
 
-  sumCaloriesForMacro(macro) {
-    return this.foods.reduce((sum, currentFood, i) => {
+  sumCaloriesForMacro(macro?: any) {
+    return this.foods.reduce((sum: any, currentFood: any, i: any) => {
       sum += currentFood.calories(this.grams[i], macro);
       return sum;
     }, 0);
@@ -67,12 +70,18 @@ export default class MealSolution {
 
   log() {
     console.log(
-      chalk.green.bold(this.foods.map((food, i) => `${food.name}: ${Math.round(this.grams[i])}g`).join(', '))
+      chalk.green.bold(
+        this.foods
+          .map((food: any, i: any) => `${food.name}: ${Math.round(this.grams[i])}g`)
+          .join(', ')
+      )
     );
     console.log(chalk.green(`Calories: ${Math.round(this.totalCalories())}kcal`));
     const { fat, carbs, protein } = this.macroSplit();
     console.log(
-      chalk.green(`Fat: ${Math.round(fat)}%, Carbs: ${Math.round(carbs)}%, Protein: ${Math.round(protein)}%`)
+      chalk.green(
+        `Fat: ${Math.round(fat)}%, Carbs: ${Math.round(carbs)}%, Protein: ${Math.round(protein)}%`
+      )
     );
   }
 }
